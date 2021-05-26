@@ -35,10 +35,8 @@ class CircleSlider extends StatelessWidget {
           Navigator.of(context).push(MaterialPageRoute<Null>(
               fullscreenDialog: true,
               builder: (BuildContext context) {
-                return DetailScreen(
-                    movie: movies[i]);
-              })
-          );
+                return DetailScreen(movie: movies[i]);
+              }));
         },
         child: Container(
           padding: EdgeInsets.only(right: 10),
@@ -54,5 +52,4 @@ class CircleSlider extends StatelessWidget {
     }
     return results;
   }
-
 }
