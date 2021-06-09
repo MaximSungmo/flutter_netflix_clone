@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_netflix_clone/screen/home_screen.dart';
 import 'package:flutter_netflix_clone/screen/more_screen.dart';
+import 'package:flutter_netflix_clone/screen/search_screen.dart';
 import 'package:flutter_netflix_clone/widget/bottom_bar.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,8 +16,10 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late TabController controller;
 
+
   @override
   Widget build(BuildContext context) {
+    Firebase.initializeApp();
     return MaterialApp(
       title: 'MaxFlix',
       theme: ThemeData(
@@ -29,9 +33,7 @@ class _MyAppState extends State<MyApp> {
             physics: NeverScrollableScrollPhysics(),
             children: <Widget>[
               HomeScreen(),
-              Container(
-                color: Colors.white60,
-              ),
+              SearchScreen(),
               Container(
                 color: Colors.red,
               ),
