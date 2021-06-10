@@ -67,7 +67,7 @@ class _SearchScreenState extends State<SearchScreen> {
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(30),
+            padding: EdgeInsets.all(3),
           ),
           Container(
             color: Colors.black,
