@@ -15,33 +15,60 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late TabController controller;
+  final Widget controller = DefaultTabController(
+    length: 4,
+    child: Scaffold(
+      body: TabBarView(
+        physics: NeverScrollableScrollPhysics(),
+        children: <Widget>[
+          HomeScreen(),
+          SearchScreen(),
+          LikeScreen(),
+          MoreScreen()
+        ],
+      ),
+      bottomNavigationBar: Bottom(),
+    ),
+  );
 
+  // firebase 초기화
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   @override
   Widget build(BuildContext context) {
-    Firebase.initializeApp();
-    return MaterialApp(
-      title: 'MaxFlix',
-      theme: ThemeData(
-          brightness: Brightness.dark,
-          primaryColor: Colors.black,
-          accentColor: Colors.white),
-      home: DefaultTabController(
-        length: 4,
-        child: Scaffold(
-          body: TabBarView(
-            physics: NeverScrollableScrollPhysics(),
-            children: <Widget>[
-              HomeScreen(),
-              SearchScreen(),
-              LikeScreen(),
-              MoreScreen()
-            ],
-          ),
-          bottomNavigationBar: Bottom(),
-        ),
-      ),
-    );
+    // async await
+    return FutureBuilder(
+        future: _initialization,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Directionality(
+              textDirection: TextDirection.ltr,
+              child: Center(
+                  child: Text("Firebase Error",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white60,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ))),
+            );
+          }
+
+          if (snapshot.connectionState == ConnectionState.done) {
+            return MaterialApp(
+              title: 'MaxFlix',
+              theme: ThemeData(
+                  brightness: Brightness.dark,
+                  primaryColor: Colors.black,
+                  accentColor: Colors.white),
+              home: controller,
+            );
+          }
+
+          return Directionality(
+            textDirection: TextDirection.ltr,
+            child: LinearProgressIndicator(),
+          );
+        });
   }
 }
